@@ -1,0 +1,44 @@
+ÿ†Option Explicit
+
+'I just make this only to strip out the comment or something that
+'I don't need in my work with out going to select them and delete.
+'Because of using string scan are too slow, so this method is fast and easy.
+'I use an array to hold the string but this is not a good idea coz
+'It's uses much memory in large text file.
+'If you know how to skip any unneeded character without using a bunch of array
+'Please tell me or send me a source code.
+
+'-------------------------->>> CRIPTEDEM@YAHOO.COM <<<----------------------------
+
+Private Sub Command1_Click()
+'I use vb comment and remove them
+'If you want to test the other place them in the text box
+
+Dim TheString() As String      'Place where the string is hold
+Dim Pos, Cnt, lPos As Integer
+
+TheString = Split(Text1.Text, Chr$(13) & Chr$(10))
+
+For Pos = 0 To UBound(TheString)
+    
+    If Mid$(TheString(Pos), 1, 1) = "'" Then 'Find in first character occorence in string
+    'Do nothing
+    'This will skip the string which has the string "'"
+    Else
+    'Find comment in the string if any
+    'This will remove all string after the search string
+        For Cnt = 1 To Len(TheString(Pos))
+            lPos = InStr(Cnt, TheString(Pos), "'")
+                If lPos <> 0 Then
+                    Text2.Text = Text2.Text & Mid$(TheString(Pos), 1, lPos - Cnt) & Chr$(13) & Chr$(10)
+                    Exit For
+                Else
+                    'If no string search then add them
+                    Text2.Text = Text2.Text & TheString(Pos) & Chr$(13) & Chr$(10)
+                    Exit For
+                End If
+        Next
+    End If
+
+Next
+End Sub
